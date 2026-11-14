@@ -8,6 +8,7 @@
 #include "util.h"
 #include "arena.h"
 #include "file_io.h"
+#include "gfx.h"
 
 int main(void) {
   if (!glfwInit()) {
@@ -25,8 +26,8 @@ int main(void) {
   Arena arena;
   arena_init(&arena, 1024*1024);
 
-  StringView vert_src = file_read_to_arena(&arena, "assets/shaders/default.vert");
-  StringView frag_src = file_read_to_arena(&arena, "assets/shaders/default.frag");
+  StringView vert = file_read_to_arena(&arena, "assets/shaders/default.vert");
+  StringView frag = file_read_to_arena(&arena, "assets/shaders/default.frag");
   
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
@@ -46,6 +47,8 @@ int main(void) {
     return EXIT_FAILURE;
   }
 
+  gfx_init(vert, frag);
+ 
   while(!glfwWindowShouldClose(window)) {
     timer_update();
 
@@ -53,10 +56,12 @@ int main(void) {
     glClearColor(0.15f, 0.15f, 0.15f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
+    gfx_draw();
     glfwSwapBuffers(window);
     glfwPollEvents();
   }
 
+  gfx_shutdown();
   arena_destroy(&arena);
   logger_shutdown();
   glfwDestroyWindow(window);
