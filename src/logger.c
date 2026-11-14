@@ -20,8 +20,8 @@ int logger_init(const char* log_file) {
     dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
     SetConsoleMode(hOut, dwMode);
   }
-  
-  log_fp = fopen(log_file, "a");
+
+  fopen_s(&log_fp, log_file, "a");
   initialized = 1;
   return (log_fp != NULL);
 }
