@@ -1,0 +1,7 @@
+*.exe
+*.ilk
+*.pdb
+*.rdi
+*.log
+*.obj
+vendor/glfw/docs
