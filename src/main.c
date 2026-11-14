@@ -2,6 +2,7 @@
 #include <GLFW/glfw3.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 #include "logger.h"
 #include "timer.h"
@@ -9,6 +10,7 @@
 #include "arena.h"
 #include "file_io.h"
 #include "gfx.h"
+#include "mdash.h"
 
 int main(void) {
   if (!glfwInit()) {
@@ -48,14 +50,29 @@ int main(void) {
   }
 
   gfx_init(vert, frag);
- 
+
+  float aspect = 800.0f / 600.0f;
+  Mat4 projection = mat4_perspective(1.047f, aspect, 0.1f, 100.0f);
+  
   while(!glfwWindowShouldClose(window)) {
     timer_update();
 
     float dt = timer_delta();
+    float time = glfwGetTime();
+
+    Mat4 rot = mat4_rotate_z(time);
+    Mat4 pos = mat4_translate((Vec3){0.0f, 0.0f, -2.0f});
+    Mat4 model = mat4_mul(pos, rot);
+
+    gfx_set_mat4("u_Projection", projection);
+    gfx_set_mat4("u_Model", model);
+    
     glClearColor(0.15f, 0.15f, 0.15f, 1.0f);
+
     glClear(GL_COLOR_BUFFER_BIT);
 
+    gfx_set_vec4("u_Color", 0.4f, 0.5f, 0.8f, 1.0f);
+    
     gfx_draw();
     glfwSwapBuffers(window);
     glfwPollEvents();

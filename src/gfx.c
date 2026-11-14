@@ -56,3 +56,20 @@ void gfx_shutdown(void) {
   glDeleteBuffers(1, &vbo);
   glDeleteProgram(shader_program);
 }
+
+// Sets
+
+void gfx_set_mat4(const char* name, Mat4 matrix) {
+  GLint location = glGetUniformLocation(shader_program, name);
+  glUniformMatrix4fv(location, 1, GL_TRUE, &matrix.m[0][0]);
+}
+
+void gfx_set_float(const char* name, float value) {
+  GLint location = glGetUniformLocation(shader_program, name);
+  glUniform1f(location, value);
+}
+
+void gfx_set_vec4(const char* name, float x, float y, float z, float w) {
+  GLint location = glGetUniformLocation(shader_program, name);
+  glUniform4f(location, x, y, z, w);
+}
