@@ -15,6 +15,7 @@ This whole project uses C11 standard, because that is the only one that I knew w
 You must have visual studio 2026 installed on a win64 device.
 
 ```
+pip install -r requirements.txt
 python builld.py
 ```
 

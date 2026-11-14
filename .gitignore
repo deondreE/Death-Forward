@@ -1,7 +1,4 @@
-*.exe
-*.ilk
-*.pdb
-*.rdi
-*.log
-*.obj
+build
 vendor/glfw/docs
+*.json
+.cache

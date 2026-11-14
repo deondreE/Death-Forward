@@ -6,7 +6,8 @@ static GLuint vao, vbo;
 
 static GLuint compile_shader(GLenum type, StringView src) {
   GLuint shader = glCreateShader(type);
-  glShaderSource(shader, 1, &src.data, (GLint*)&src.len);
+  GLint len = (GLint)src.len;
+  glShaderSource(shader, 1, &src.data, &len);
   glCompileShader(shader);
 
   GLint success;
@@ -15,6 +16,7 @@ static GLuint compile_shader(GLenum type, StringView src) {
     char info[512];
     glGetShaderInfoLog(shader, 512, NULL, info);
     LOG_E("Shader Compile Error: %s", info);
+    return false;
   }
   return shader;
 }
@@ -61,7 +63,7 @@ void gfx_shutdown(void) {
 
 void gfx_set_mat4(const char* name, Mat4 matrix) {
   GLint location = glGetUniformLocation(shader_program, name);
-  glUniformMatrix4fv(location, 1, GL_TRUE, &matrix.m[0][0]);
+  glUniformMatrix4fv(location, 1, GL_FALSE, &matrix.m[0][0]);
 }
 
 void gfx_set_float(const char* name, float value) {
@@ -71,5 +73,5 @@ void gfx_set_float(const char* name, float value) {
 
 void gfx_set_vec4(const char* name, float x, float y, float z, float w) {
   GLint location = glGetUniformLocation(shader_program, name);
-  glUniform4f(location, x, y, z, w);
+  glUniform4f(location, x, y, z , w);
 }

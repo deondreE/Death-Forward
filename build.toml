@@ -1,0 +1,19 @@
+[project]
+name = "app.exe"
+src_dir = "src"
+build_dir = "build"
+debug = true
+
+[paths]
+include_dirs = ["include", "vendor/glfw/include", "vendor/glad/include"]
+lib_dirs = ["vendor/glfw/lib-vc2026"]
+
+[link]
+libs = [
+  "glfw3.lib",
+  "opengl32.lib",
+  "user32.lib",
+  "kernel32.lib",
+  "gdi32.lib",
+  "shell32.lib",
+]
