@@ -11,6 +11,17 @@
 #include "file_io.h"
 #include "gfx.h"
 #include "mdash.h"
+#include "input.h"
+
+static InputState current_keys; 
+
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+  if (action == GLFW_PRESS) {
+    input_set_key(&current_keys, key, true);
+  } else if (action == GLFW_RELEASE) {
+    input_set_key(&current_keys, key, false);
+  }
+}
 
 int main(void) {
   if (!glfwInit()) {
@@ -48,7 +59,8 @@ int main(void) {
     fprintf(stderr, "ERROR: Failed to initialize GLAD\n");
     return EXIT_FAILURE;
   }
-
+  glfwSetKeyCallback(window, key_callback);
+  
   gfx_init(vert, frag);
 
   float aspect = 800.0f / 600.0f;
